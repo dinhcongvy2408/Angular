@@ -1,0 +1,134 @@
+<header class="header">
+    <div class="grid">
+        <nav class="header_top justify-content-evenly align-items-center">
+            <ul class="header_top-list">
+                <li class="header_top-item list-inline-item">
+                    <a href="" class="header_top-left">
+                        <i class="fa-solid fa-diamond"></i>
+                        Tuyển Dụng
+                    </a>
+                </li>
+                <li class="header_top-item list-inline-item">
+                    <a href="" class="header_top-left">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Tìm cửa hàng
+                    </a>
+                </li>
+                <li class="header_top-item list-inline-item">
+                    <a href="" class="header_top-left header_top-left-300">
+                        <i class="fa-solid fa-phone"></i>
+                        <b>0888906044-1900000000</b>
+                        Mua hàng & CSKH
+                    </a>
+                </li>
+            </ul>
+            <ul class="header_top-list header_top-item-none col-3 col-md-4 text-end">
+                <li class="header_top-item ">Khu Vực: </li>
+            </ul>
+        </nav>
+        <div class="header_with-search row justify-content-evenly align-items-center">
+            <div class="header_logo col-3 col-md-2">
+                <img src="//bizweb.dktcdn.net/100/416/540/themes/839121/assets/logo.png?1741921864781" alt="" class="img-fluid">
+            </div>
+            <div class="header_search col-7 col-md-3">
+                <label for="search_left-input" class="search_left d-flex justify-content-center align-items-center">
+                        <i class="fa-solid fa-bars text-white"></i>
+                </label>
+                <input type="checkbox" name="" id="search_left-input">
+                <label for="search_left-input" class="header_search-overlay-item"></label>
+                <nav class="menu_list-left">
+                    <label for="search_left-input"class="menu-list-left-close">
+                        <svg class="left_close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+                    </label>
+                    <ul class="menu_list-left-item">
+                        <li class="menu_list-left-item-child">
+                            <a href="" class="menu_list-left-item-child-link">Thời trang</a>
+                        </li>
+                        <li class="menu_list-left-item-child">
+                            <a href="" class="menu_list-left-item-child-link">Đồ gia dụng</a>
+                        </li>
+                        <li class="menu_list-left-item-child">
+                            <a href="" class="menu_list-left-item-child-link">Thực phẩm</a>
+                        </li>
+                        <li class="menu_list-left-item-child">
+                            <a href="" class="menu_list-left-item-child-link">Sức khỏe</a>
+                        </li>
+                    </ul>
+                </nav>
+               
+                <div class="input-group">
+                    <input type="text" class="form-control header_search-input" placeholder="Nhập để tìm kiếm">
+                    <button class="btn btn-outline-secondary header_search-item">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                <div class="search_right d-flex justify-content-center align-items-center">
+                    <button class="btn btn-red">
+                        <i class="fa-solid fa-cart-flatbed text-white"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="header_search-list col-4 col-md-4 d-flex justify-content-around align-items-center">
+                <div class="header_order me-3">
+                    <a href="" class="header_search-fl">
+                        <i class="fa-solid fa-file"></i>
+                        Theo dõi đơn hàng 
+                    </a>
+                </div>
+                <div class="header_acc dropdown me-3">
+                    <div class="header_acc-list">
+                        <div class="header_search-acc-item" data-bs-toggle="dropdown">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Tài khoản của bạn</span>
+                        </div>
+                        <div class="drop_down dropdown-menu">
+                            <a class="dropdown-item" href="#">Đăng Nhập</a>
+                            <a class="dropdown-item" href="#">Đăng Ký</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header_cart">
+                    <a href="" class="header_search-cart-item">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                    <div class="drop_cart">
+                        <a class="dropdown-cart" href="#">Không có sản phẩm nào</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="header_footer row justify-content-evenly align-items-center">
+            <div class="header_footer-menu col-3">
+                <li class="header_footer-menu-drop">
+                    <i class="fa-solid fa-bars"></i>
+                    GỢI Ý BA MẸ
+                    <div class="header_menu">
+                        <ul class="header_menu-list" *ngFor="let list of menu">
+                            <li class="header_menu-item">
+                                <a [href]="list.href">{{list.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+            <div class="header_footer-list col-9">
+                <nav class="header_nav">
+                    <ul class="header_nav-list">
+                        <li class="header_nav-item" *ngFor="let menuOptions of menuOption">
+                            <span>{{menuOptions.name}}</span> 
+                            <i class="fa-solid fa-caret-down"></i>
+                            <div class="menu">
+                                <ul class="menu-list">
+                                    <li class="menu-item" *ngFor="let OptionItem of menuOptions.Option">
+                                        <a [href]="OptionItem.href">{{OptionItem.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

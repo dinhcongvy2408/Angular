@@ -1,0 +1,20 @@
+<div class="product_product">
+    <div class="product_row">
+        <div class="product_column">
+            <div class="product_column-list" *ngFor="let product of data">
+                <div class="product_column-item">
+                    <a href="">
+                        <img [src]="product.images" [alt]="product.name">
+                    </a>
+                </div>
+                <div class="product_column-item">
+                    <a href="">{{ product.name }}</a>
+                </div>
+                <div class="product_column-item">
+                    <p>{{ product.price }} đ</p>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

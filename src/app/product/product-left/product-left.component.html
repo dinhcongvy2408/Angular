@@ -1,0 +1,80 @@
+
+<ng-container *ngIf="groups.id === 2; else normalOrder">
+        <div class="product_poster" *ngFor="let banner of baner">
+          <a [href]="banner.href">
+            <img [src]="banner.src" [alt]="banner.alt">
+          </a>
+        </div>
+        <div class="product_list">
+          <div class="list_left">
+            <ul class="product_list-name">
+                <div class="list_name-item"class="name_item-impotant">
+                    <div class="name_item-after">
+                        <a [href]="groups.href" class="list_red">
+                           {{ groups.name }}
+                         </a>
+                    </div>
+                    <div class="name_item-before">
+                        <h2>{{ groups.id }}</h2>
+                    </div>
+                </div>
+
+                <div class="list_name-list">
+                    <li class="name_list-item" *ngFor="let option of groups.options">
+                        <a [href]="option.href" class="list_name-item list_son">
+                            {{ option.name }}
+                        </a>
+                    </li>
+                </div>
+            </ul>
+          </div>
+          <div class="list_img">
+            <div class="img_row">
+                <div class="img_column" *ngFor="let img of groups.images">
+                    <a [href]="img.href">
+                        <img [src]="img.src" [alt]="img.alt">
+                    </a>
+                </div>
+            </div>
+          </div>
+        </div>
+</ng-container>
+<ng-template #normalOrder>
+    <div class="product_list">
+        <div class="list_left">
+            <ul class="product_list-name">
+                    <div class="list_name-item">
+                        <div class="name_item-before">
+                            <h2>{{ groups.id }}</h2>
+                        </div>
+                        <div class="name_item-after">
+                            <a [href]="groups.href" class="list_red">
+                                {{ groups.name }}
+                            </a>
+                        </div>
+                    </div>
+                <div class="list_name-list">
+                    <li class="name_list-item" *ngFor="let option of groups.options">
+                        <a [href]="option.href" class="list_name-item list_son">
+                            {{ option.name }}
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <div class="list_img">
+            <div class="img_row">
+                <div class="img_column" *ngFor="let img of groups.images">
+                    <a [href]="img.href">
+                        <img [src]="img.src" [alt]="img.alt">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product_poster" *ngFor="let banner of baner">
+        <a [href]="banner.href">
+            <img [src]="banner.src" [alt]="banner.alt">
+        </a>
+    </div>
+</ng-template>

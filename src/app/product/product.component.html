@@ -1,0 +1,11 @@
+
+<div class="product-container row d-flex justify-content-center align-items-center">
+    <div class="product " *ngFor="let group of groups"  [ngClass]="{'reverse': (group.id) === 2 }">
+      <div class="product-left">
+        <app-product-left [groups]="group" [baner]="group.baner"></app-product-left>
+      </div>
+      <div class="product-right">
+        <app-product-right [data]="group.products"></app-product-right>
+      </div>
+    </div>
+</div>
