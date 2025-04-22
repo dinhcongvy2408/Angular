@@ -1,11 +1,81 @@
 
-<div class="product-container row d-flex justify-content-center align-items-center">
-    <div class="product " *ngFor="let group of groups"  [ngClass]="{'reverse': (group.id) === 2 }">
-      <div class="product-left">
-        <app-product-left [groups]="group" [baner]="group.baner"></app-product-left>
+<div class="option">
+  <div class="row justify-content-center my-5">
+      <div class="col-9 col-lg-9 text-center justify-content-center">
+          <div class="QuangCao">MẸ CẦN TÌM GÌ?</div>
       </div>
-      <div class="product-right">
+      <div class="option_list d-flex justify-content-center col-12 col-lg-12">
+        <div class="list-item justify-content-center col-1 col-lg-1">
+          <div class="item-content justify-content-center">
+            <a href="#">
+              <img src="https://bizweb.dktcdn.net/100/416/540/themes/839121/assets/image_cat_1.jpg?1744969171405" class="img-fluid w-70">
+            </a>
+          </div>
+          <div class="title justify-content-center">
+            <a href="#" class="item-text text-center">
+              <h2>Sữa bột</h2>
+            </a>
+          </div>
+        </div>
+        <div class="list-item justify-content-center col-1 col-lg-1">
+          <div class="item-content justify-content-center">
+            <a href="#">
+              <img src="https://bizweb.dktcdn.net/100/416/540/themes/839121/assets/image_cat_2.jpg?1744969171405" class="img-fluid w-70">
+            </a>
+          </div>
+          <div class="title justify-content-center">
+            <a href="#" class="item-text text-center">
+              <h2>Sữa bột</h2>
+            </a>
+          </div>
+        </div>
+        <div class="list-item justify-content-center col-1 col-lg-1">
+          <div class="item-content justify-content-center">
+            <a href="#">
+              <img src="https://bizweb.dktcdn.net/100/416/540/themes/839121/assets/image_cat_3.jpg?1744969171405" class="img-fluid w-70">
+            </a>
+          </div>
+          <div class="title justify-content-center">
+            <a href="#" class="item-text text-center">
+              <h2>Sữa bột</h2>
+            </a>
+          </div>
+        </div>
+        <div class="list-item justify-content-center col-1 col-lg-1">
+          <div class="item-content justify-content-center">
+            <a href="#">
+              <img src="https://bizweb.dktcdn.net/100/416/540/themes/839121/assets/image_cat_1.jpg?1744969171405" class="img-fluid w-70">
+            </a>
+          </div>
+          <div class="title justify-content-center">
+            <a href="#" class="item-text text-center">
+              <h2>Sữa bột</h2>
+            </a>
+          </div>
+        </div>
+        <div class="list-item justify-content-center col-1 col-lg-1">
+          <div class="item-content justify-content-center">
+            <a href="#">
+              <img src="https://bizweb.dktcdn.net/100/416/540/themes/839121/assets/image_cat_4.jpg?1744969171405" class="img-fluid w-70">
+            </a>
+          </div>
+          <div class="title justify-content-center">
+            <a href="#" class="item-text text-center">
+              <h2>Sữa bột</h2>
+            </a>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="product-container row d-flex justify-content-center align-items-center">
+    <div class="product " *ngFor="let group of groups; let isEven = even"  [ngClass]="{'reverse': (group.id) %2 == 0 }">
+      <div class="product-left col-12 col-md-12 col-lg-4">
+        <app-product-left [groups]="group" [baner]="group.baner" [even]="isEven"></app-product-left>
+      </div> 
+      <div class="product-right col-12 col-md-12 col-lg-6">
         <app-product-right [data]="group.products"></app-product-right>
       </div>
     </div>
+    <button type="button" class="btn btn-primary" (click)="addBigGroup()">Thêm mới</button>
 </div>

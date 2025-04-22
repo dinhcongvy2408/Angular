@@ -1,44 +1,57 @@
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-11">
-        <ngb-carousel [interval]="3000">
-          <ng-template ngbSlide *ngFor="let banner of Baner">
-            <img [src]="banner.src" [alt]="banner.alt" class="d-block w-100" />
-          </ng-template>
-        </ngb-carousel>
-      </div>
+<div style="margin-top: 199px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-11">
+                <ngb-carousel [interval]="3000">
+                    <ng-template ngbSlide *ngFor="let banner of Baners">
+                        <img [src]="banner.src" [alt]="banner.alt" class="d-block w-100" />
+                    </ng-template>
+                </ngb-carousel>
+            </div>
+        </div>
     </div>
-  </div>
-   
-
-    <div class="section_flash ">
-        <div class="section_flash-list row col-12 col-md-6 col-lg-4 my-3 justify-content-center">
-            <a href="">SẢN PHẨM HOT</a>
+    <div class="row justify-content-center my-5">
+        <div class="col-9 col-lg-9 text-center justify-content-center">
+          <div class="hot-button">SẢN PHẨM HOT</div>
         </div>
-        <div class="product_hot row  my-3 justify-content-center">
-            <ngb-carousel [interval]="3000">
-                <ng-template ngbSlide *ngFor="let group of groupedProducts">
-                    <div class="row justify-content-center">
-                        <ng-container *ngFor="let product of group">
-                            <div class="product_hot-list col-6 col-md-4 section_sale d-flex flex-column align-items-center">
-                                <div class="sale_first-bottom text-center">
-                                    <div class="first_bottom-headline">
-                                        <h3>{{ product.title }}</h3>
-                                        <p>{{ product.price }}</p>
-                                    </div>
-                                    <div class="first_bottom-intro">
-                                        <p>[MUA 3 TẶNG 1] - Mua 3 gói được tặng 1 gói đại cùng size</p>
-                                    </div>
-                                </div>
-                                <div class="sale_first-top">
-                                    <a href="" class="sale_img">
-                                    <img [src]="product.img" alt="" class="img-fluid" />
-                                    </a>
-                                </div>
-                            </div>
-                        </ng-container>
+    </div>
+    <div class="row justify-content-center gx-5 gy-4">
+        <ngb-carousel [interval]="5000" [pauseOnHover]="true">
+            <ng-template ngbSlide *ngFor="let group of chunkedBanners">
+              <div class="row justify-content-center">
+                <div class="Two  col-4 col-lg-4" *ngFor="let item of group">
+                    <div class="carousel-banner d-flex align-items-center justify-content-between ">
+                        <div class="banner-text col-6 col-lg-6">
+                            <a href="#" class="text-danger fw-bold">{{ item.title }}</a>
+                            <p class="text-primary fw-bold">{{ item.price | currency:'VND' }}</p>
+                            <p class="text-muted">{{ item.description }}</p>
+                        </div>
+                        <div class="banner-image text-center">
+                            <a href="">
+                                <img [src]="item.src" [alt]="item.title" class="img-fluid" />
+                            </a>
+                        </div>
                     </div>
-                </ng-template>
-            </ngb-carousel>
-        </div>
-</div>
+                </div>
+              </div>
+            </ng-template>
+        </ngb-carousel>
+    </div>
+    <!-- <div class="row justify-content-center gx-5 gy-4">
+        <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let group of chunkedBanners">
+              <div class="row justify-content-center">
+                <div class="Two  col-4 col-lg-4" *ngFor="let item of group">
+                    <div class="carousel-banner d-flex align-items-center justify-content-between ">
+                        <div class="banner-image text-center">
+                            <a href="">
+                                <img [src]="item.src" [alt]="item.title" class="img-fluid" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </ng-template>
+        </ngb-carousel>
+    </div> -->
+  

@@ -1,6 +1,31 @@
+.QuangCao {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to bottom, #f95e1d, #fca01f);
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .list-item{
+    flex-wrap: wrap;
+    margin: 15px 10px;
+    .item-text{
+        text-decoration: none;
+        font-size: 30px;
+    }
+    .item-text h2 {
+        font-size: 20px !important;
+        font-weight: 800;
+    }
+  }
+
 .product-container {
-    max-width: 1200px;
-    margin: 0 auto; 
+    margin: 10px 300px; 
     box-sizing: border-box;
 }
 
@@ -8,33 +33,26 @@
     display: flex;
     padding-top: 10px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
     
 }
   
 .product.reverse {
     flex-direction: row-reverse;
     display: flex ;
-    justify-content: flex-end;
-}
-  
-.product-left, .product-right {
-    flex: 1;
-    margin: 1px;
-}
-  
-.product-left {
-    max-width: 500px;
-}
-  
-.product-right {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: flex-start;
 }
-
+.product-left {
+    flex: 2;
+}  
+  
+.product-right {
+    flex: 2;
+}
 
 @media (max-width: 990px) {
     .product-container {
+        margin: 10px 0;
         padding: 10px;
     }
 
@@ -49,8 +67,6 @@
 
     .product-left, .product-right {
         flex: none;
-        width: 100%;
-        max-width: 100%;
         margin: 10px 0;
     }
 

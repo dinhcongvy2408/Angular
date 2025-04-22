@@ -1,102 +1,59 @@
-.container{
-    width: 100%;
+
+body {
+  margin-top: 100px;
+  background-color: #f8f9fa;
+  padding-top: 500px;
+
 }
-.section_flash{
-    display: grid;
-    // grid-template-columns: 1fr;
-    justify-items: center;
-}
-
-.section_flash-list{
-    width: 380px;
-    height: 80px;
-    background: linear-gradient(to right, rgb(193, 150, 56), rgb(255, 155, 4));
-    // margin-left: 41vw;
-    text-align: center;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1%;
-}
-
-@media (max-width: 990px) {
-    .section_flash-list {
-        width: 40%;
-        max-width: 1180px;
-        height: 60px;
-        margin: 10px auto; // Căn giữa
-    }
-
-    .section_flash-list a {
-        font-size: 24px; // Giảm kích thước chữ
-    }
-}
-
-
-.section_flash-list a{
-    color: white;
+.Two{
+  border: 1px dashed #ccc;
+  margin: 0 30px;
+  .banner-text{
+    order: 1;}
+  .banner-image{
+    order: 2;}
+  .banner-text a{
     text-decoration: none;
-    font-size: 30px;
-    font-weight: bold;
+  }
 }
 
-.product_hot {
+.hot-button {
+  display: inline-block;
+  padding: 16px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(to bottom, #f95e1d, #fca01f);
+  border-radius: 40px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+@media screen and (max-width: 990px) {
+  .hot-button{
+    font-size: 14px;
+  }
+  .Two{
     display: flex;
+    margin: 0 10px;
     flex-wrap: wrap;
-    justify-content: center;
-}
-
-.section_sale {
-    // max-width: 30%;
-    margin-left: 80px;
-    background-color: #fff;
-    border: 1px dashed #ddd;
-    border-radius: 10px;
-    padding: 1px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.sale_img img {
-    width: 100%;
-    height: auto;
-    max-width: 200px;
-    border-radius: 10px;
-}
-
-.first_bottom-headline h3 {
-    color: red;
-    font-size: 1.2rem;
-}
-
-.first_bottom-headline p {
-    color: blue;
-    font-size: 1rem;
-}
-
-// .carousel-control-prev,
-// .carousel-control-next {
-//     display: none;
-// }
-
-.product_hot-list{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 450px) {
-    .section_flash-list a{
-        text-decoration: none;
-        font-size: 10px;
-        font-weight: bold;
+    transform: scale(1);
+    .carousel-banner{
+      flex-wrap: wrap;
+        .banner-text{
+          order: 2;
+          font-size: small;
+          
+        }
+        .banner-image{
+          order: 1;}
     }
-
     
-
-    .product_hot {
-        width: 85%;
-    }
+  }
+  .text-muted{
+    display: none;
+  }
+  
 }

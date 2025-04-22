@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ProductLeftComponent implements OnInit {
   @Input() groups: any;
   @Input() baner: any;
+  @Input() even: any;
+
 
   ngOnInit() {
   }

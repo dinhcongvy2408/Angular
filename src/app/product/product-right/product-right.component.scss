@@ -1,7 +1,6 @@
 .product_column {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    width: 760px;
     height: 100%;
 }
 
@@ -18,7 +17,6 @@
 }
 
 .product_column-item {
-    width: 100%;
     height: auto;
     overflow: visible;
     margin-bottom: 5px;
@@ -26,7 +24,6 @@
 
 .product_column-item img {
     width: 100%;
-    max-width: 150px;
     height: 150px;
     object-fit: contain;
     transition: transform 0.3s ease;
