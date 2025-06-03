@@ -1,0 +1,43 @@
+<app-nav></app-nav>
+<div class="login-container">
+  <div class="login-form">
+    <h2>Đăng nhập</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Tên đăng nhập</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="userName"
+          [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+        >
+        <div class="error-message" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          {{ getErrorMessage('username') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="passWord"
+          [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        >
+        <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <div class="error" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Đăng nhập</span>
+        <span *ngIf="isLoading">Đang xử lý...</span>
+      </button>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

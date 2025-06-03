@@ -1,26 +1,27 @@
 <div class="form-banner " [class.reserve-banner]="even">
-  <div class="product_poster" *ngFor="let banner of baner">
+<ng-container *ngFor="let banner of banners; let even = even">
+  <div class="product_poster" *ngIf="banner.group?.id === groups.id">
     <a [href]="banner.href" [class.reserve-banner]="even">
-      <img [src]="banner.src" [alt]="banner.alt">
+      <img [src]="banner.src" [alt]="banner.group.name">
     </a>
   </div>
+</ng-container>
   <div class="product_list col-md-4 col-12 col-lg-4">
     <div class="list_left">
       <ul class="product_list-name">
-        <div class="list_name-item  col-lg-12 col-md-12 col-12"[class.reserve-banner]="!even">
+        <div class="list_name-item col-lg-12 col-md-12 col-12" [class.reserve-banner]="!even">
           <div class="name_item-before col-md-4 col-lg-4 col-4">
             <h2>{{ groups.id }}</h2>
           </div>
-          <div class="name_item-after" >
+          <div class="name_item-after">
             <a [href]="groups.href" class="list_red">
-             {{ groups.name }}
+              {{ groups.name }}
             </a>
           </div>
-          
         </div>
         <div class="list_name-list">
-          <li class="name_list-item" *ngFor="let option of groups.options">
-            <a [href]="option.href" class="list_name-item list_son">
+          <li class="name_list-item" *ngFor="let option of options">
+            <a *ngIf="option.group && option.group.id === groups.id" [href]="option.href" class="list_name-item list_son">
               {{ option.name }}
             </a>
           </li>
@@ -29,8 +30,8 @@
     </div>
     <div class="list_img col-lg-6 col-md-3 col-3">
       <div class="img_row">
-        <div class="img_column" *ngFor="let img of groups.images">
-          <a [href]="img.href">
+        <div class="img_column" *ngFor="let img of images" >
+          <a *ngIf="img.group && img.group.id === groups.id" [href]="img.href">
             <img [src]="img.src" [alt]="img.alt">
           </a>
         </div>

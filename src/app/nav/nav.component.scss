@@ -38,6 +38,7 @@
     .header_logo {
         left: 9%;
         top: 25%;
+        cursor: pointer;
         .header_logo img {
             width: 188px;
             height: 35px;
@@ -159,44 +160,108 @@
     text-align: center;
     margin-bottom: 10px;
     transition: all 0.3s ease;
+    .drop_down a:hover {
+        color: rgb(239, 230, 230);
+        background: #0f86dc;
+    }
 }
 
-.drop_down a:hover {
-    color: rgb(239, 230, 230);
-    background: #0f86dc;
+.dropdown-item-logout{
+    display: block;
+    text-decoration: none;
+    color: rgb(255, 238, 238);
+    font-size: 16px;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    background-color: #eb4646;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    .dropdown-item-logout:hover {
+        color: rgb(239, 230, 230);
+        background: #0f86dc;
+    }
 }
+
 
 .header_cart {
     width: 10%;
+    .image-cart{
+        height: 80px;
+
+    }
+    .quantity{
+        position: absolute;
+        left: 32px;
+        top: 18px;
+        background-color: rgb(21, 76, 241);
+        border-radius: 76%;
+        color: white;
+        padding: 0 5px;
+        font-size: 0.8rem;
+    }
 }
 
 .header_search-cart-item {
+    position: relative;
     display: flex;
     text-decoration: none;
     color: rgb(16, 15, 15);
     align-items: center;
     text-align: center;
+    
 }
-
 .header_search-cart-item i {
-    border: 1px solid red;
-    border-radius: 20px;
-    padding: 5px;
-    font-size: 25px;
-    color: white;
-    background-color: red;
-    width: 40px;
-}
+        border: 1px solid red;
+        border-radius: 20px;
+        padding: 5px;
+        font-size: 25px;
+        color: white;
+        background-color: red;
+        width: 40px;
+    }
+
 
 .drop_cart{
     background-color: white;
     position: absolute;
-    width: 200px;
-    height: 100px;
+    min-width: 150px;
+    min-height: 50px;
     border-radius: 10px;
     border: 1px solid#d7c8c8;
     display: none;
     z-index: 1000;
+    .dropdown-cart{
+        
+        .cart-item{
+            padding:0 50px;
+            .image-cart{}
+            .cart-item-text{
+                .cart-item-name{
+                    font-size: 1.2rem;
+                    color: rgb(249, 10, 10);
+                    font-weight: 700;
+                }
+                .cart-item-price{
+                    font-size: 1rem;
+                    color: rgb(16, 15, 15);
+                }   
+            }
+            .cart-remove{
+                padding: 5px;
+                font-size: 1.3rem;
+                color: rgb(16, 15, 15);
+                cursor: pointer;
+                transition: color 0.2s;
+                background-color: #ee9d9d;
+                border-radius: 10px;
+            }
+
+        }
+
+    }
 
 }
 

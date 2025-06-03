@@ -1,4 +1,3 @@
-
 <div class="option">
   <div class="row justify-content-center my-5">
       <div class="col-9 col-lg-9 text-center justify-content-center">
@@ -68,14 +67,19 @@
       </div>
   </div>
 </div>
+
 <div class="product-container row d-flex justify-content-center align-items-center">
-    <div class="product " *ngFor="let group of groups; let isEven = even"  [ngClass]="{'reverse': (group.id) %2 == 0 }">
+  <div class="product" *ngFor="let group of groups; let isEven = even" [ngClass]="{'reverse': group.id % 2 === 0}">
       <div class="product-left col-12 col-md-12 col-lg-4">
-        <app-product-left [groups]="group" [baner]="group.baner" [even]="isEven"></app-product-left>
-      </div> 
-      <div class="product-right col-12 col-md-12 col-lg-6">
-        <app-product-right [data]="group.products"></app-product-right>
+          <app-product-left 
+          [groups]="group" 
+          [banners]="banners" 
+          [images]="getImagesByGroup(group.id)"
+          [options]="options"
+          [even]="isEven"></app-product-left>
       </div>
-    </div>
-    <button type="button" class="btn btn-primary" (click)="addBigGroup()">Thêm mới</button>
+      <div class="product-right col-12 col-md-12 col-lg-6">
+          <app-product-right [groupId]="group.id"></app-product-right>
+      </div>
+  </div>
 </div>

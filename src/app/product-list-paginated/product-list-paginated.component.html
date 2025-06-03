@@ -1,0 +1,36 @@
+<app-nav></app-nav>
+<div class="product_list-container">
+    <h2>Danh sách Sản phẩm</h2>
+
+    <div *ngIf="loading">Đang tải sản phẩm...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="!loading && !error && products.length > 0">
+        <div class="product-list">
+            <div *ngFor="let product of products" class="product-item">
+                <div class="product-image-container">
+                    <img *ngIf="product.images" [src]="product.images" alt="{{ product.name }}">
+                </div>
+                <h3 class="product-name">{{ product.name }}</h3>
+                <div class="product-details">
+                    <p class="product-price">{{ product.price | currency:'VND':'symbol':'1.0-0' }}</p>
+                    <button (click)="addToCart(product)" class="add-to-cart-button">🛒</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination-controls">
+            <button (click)="previousPage()" [disabled]="currentPage === 0" class="pagination-button">Trang
+                trước</button>
+            <span class="pagination-info">Trang {{ currentPage + 1 }} / {{ totalPages }} (Tổng: {{ totalItems }} sản
+                phẩm)</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages - 1" class="pagination-button">Trang
+                sau</button>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !error && products.length === 0">
+        Không tìm thấy sản phẩm nào.
+    </div>
+</div>
+<app-footer></app-footer>

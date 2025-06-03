@@ -1,0 +1,66 @@
+<app-nav></app-nav>
+
+<div class="register-container">
+  <div class="register-form">
+    <h2>Đăng ký</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="fullName">Họ và tên</label>
+        <input
+          type="text"
+          id="fullName"
+          formControlName="fullName"
+          [class.is-invalid]="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched"
+        >
+        <div class="error-message" *ngIf="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched">
+          Vui lòng nhập họ và tên
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+        >
+        <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Email không hợp lệ
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="userName">Tên đăng nhập</label>
+        <input
+          type="text"
+          id="userName"
+          formControlName="username"
+          [class.is-invalid]="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched"
+        >
+        <div class="error-message" *ngIf="registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched">
+          Tên đăng nhập phải có ít nhất 3 ký tự
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="passWord">Mật khẩu</label>
+        <input
+          type="password"
+          id="passWord"
+          formControlName="password"
+          [class.is-invalid]="registerForm.get('passWord')?.invalid && registerForm.get('passWord')?.touched"
+        >
+        <div class="error-message" *ngIf="registerForm.get('passWord')?.invalid && registerForm.get('passWord')?.touched">
+          Mật khẩu phải có ít nhất 6 ký tự
+        </div>
+      </div>
+      <div class="error" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid">
+        Đăng ký
+      </button>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>

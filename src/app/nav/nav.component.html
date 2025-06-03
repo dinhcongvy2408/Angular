@@ -1,3 +1,4 @@
+
 <header class="header fixed-top">
     <div class="grid">
         <nav class="header_top justify-content-evenly  col-12 align-items-center ">
@@ -29,7 +30,7 @@
         </nav>
         <div class="header_with-search row justify-content-evenly align-items-center">
             <div class="header_logo col-3 col-md-2">
-                <img src="//bizweb.dktcdn.net/100/416/540/themes/839121/assets/logo.png?1741921864781" alt="" class="img-fluid">
+                <img [routerLink]="['/']" src="//bizweb.dktcdn.net/100/416/540/themes/839121/assets/logo.png?1741921864781" alt="" class="img-fluid">
             </div>
             <!-- Menu bên trái cho điện thoại  -->
             <div class="header_search col-7 col-md-3">
@@ -41,7 +42,7 @@
                 <nav class="menu_list-left d-flex flex-column ">
                     <div class="log d-flex justify-content-between w-100 align-items-center">
                         <div class="log-in col-6 text-center">
-                            <a href=""> Đăng Nhập</a>
+                            <a [routerLink]="['/login']">Đăng Nhập</a>
                         </div>
                         <div class="log-out col-6 text-center">
                             <a href=""> Đăng Ký</a>
@@ -108,17 +109,40 @@
                             <span>Tài khoản của bạn</span>
                         </div>
                         <div class="drop_down dropdown-menu">
-                            <a class="dropdown-item" href="#">Đăng Nhập</a>
-                            <a class="dropdown-item" href="#">Đăng Ký</a>
+                            <div *ngIf="isLoggedIn; else loginLink">
+                                <!-- <a class="dropdown-item">{{userName}}</a> -->
+                                <button class="dropdown-item-logout" (click)="logout()">Đăng xuất</button>
+                            </div>
+                            <ng-template #loginLink>
+                                <a routerLink="/login">Đăng nhập</a>
+                            <a class="dropdown-item" [routerLink]="['/register']">Đăng Ký</a>
+                            </ng-template>
                         </div>
                     </div>
                 </div>
-                <div class="header_cart">
-                    <a href="" class="header_search-cart-item">
+                <div class="header_cart ">
+                    <a [routerLink]="['/cart']" class="header_search-cart-item">
                         <i class="fa-solid fa-cart-shopping"></i>
+                        <p class="quantity">{{ totalQuantity }}</p>
                     </a>
                     <div class="drop_cart">
-                        <a class="dropdown-cart" href="#">Không có sản phẩm nào</a>
+                        <a class="dropdown-cart" href="#">
+                            <ng-container *ngIf="cartItems.length > 0; else emptyCart">
+                                <div class="cart-item d-flex align-items-center"*ngFor="let item of cartItems">
+                                        <img class="image-cart" [src]="item.images || 'assets/default-image.jpg'">
+                                        <p class="cart-item-text">
+                                            <span class="cart-item-name">{{ item.name }}</span><br>
+                                            <span class="cart-item-price">{{ item.price | currency:'VND' }}</span>
+                                            
+                                        </p>
+                                        <span class="cart-remove" (click)="removeItem(item.id)">x</span>
+                                </div>
+                            </ng-container>
+                            
+                            <ng-template #emptyCart>
+                                <p>Không có sản phẩm</p>
+                            </ng-template>
+                        </a>
                     </div>
                 </div>
                 
