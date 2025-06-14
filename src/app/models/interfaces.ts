@@ -54,23 +54,6 @@ export interface Product {
   };
 }
 
-// Interface cho dữ liệu CartItem nhận từ backend (Cập nhật để khớp với CartItemResponse)
-export interface BackendCartItem {
-  id: number; // ID của CartItem
-  productId: number; // ID của sản phẩm
-  productName: string; // Tên sản phẩm (thêm từ Backend)
-  productPrice: number; // Giá sản phẩm (thêm từ Backend)
-  quantity: number; // Số lượng
-  images: string; // URL ảnh sản phẩm
-  // Có thể thêm các trường khác nếu backend trả về, ví dụ: user, cart
-}
-
-interface AddCartItemRequest {
-  username: string;
-  productId: number;
-  quantity: number;
-}
-
 export interface PaginationResponse<T> {
   content: T[];
   totalElements: number;

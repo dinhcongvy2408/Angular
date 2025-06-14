@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, forkJoin } from 'rxjs';
-import { Product, BackendCartItem } from '../models/interfaces';
+import { BehaviorSubject, Observable, of, forkJoin, throwError } from 'rxjs';
+import { Product } from '../models/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { tap, catchError, switchMap } from 'rxjs/operators';
-// import { environment } from '../../environments/environment';
 import { CartItem } from '../models/cart.model';
     
+interface CartItemResponse { // Đây là một ví dụ DTO tương ứng với backend
+  id: number;
+  productId: number;
+  quantity: number;
+  productName: string;
+  productPrice: number;
+  images: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +20,8 @@ import { CartItem } from '../models/cart.model';
 export class CartService {
   private cartItems: Product[] = [];
   private cartSubject = new BehaviorSubject<Product[]>([]);
-  private apiUrl = 'http://localhost:8080/api/cart';
-  private username: string | null = null;
+  private apiUrl = 'http://localhost:8080/api/cart'; 
+  private currentUserId: number | null = null
 
   constructor(private http: HttpClient) {
     this.loadCartFromLocalStorage();
@@ -25,19 +32,39 @@ export class CartService {
     const localCart = savedCart ? JSON.parse(savedCart) : [];
     this.cartItems = localCart;
     this.cartSubject.next(this.cartItems);
+    console.log('Loaded cart from local storage:', this.cartItems);
   }
 
-  private loadCartFromServer(): Observable<any[]> {
-    if (!this.username) {
-      return new Observable(subscriber => {
-        subscriber.next([]);
-        subscriber.complete();
-      });
+  private loadCartFromServer(userId: number): Observable<Product[]> {
+    console.log('Attempting to load cart from server for userId:', userId);
+    if (!userId) {
+      console.warn('loadCartFromServer: No userId provided, returning empty cart.');
+      return of([]);
     }
-    return this.http.get<any[]>(`${this.apiUrl}?username=${this.username}`);
+    const url = `${this.apiUrl}/user/${userId}`;
+    console.log('Calling backend API:', url);
+    return this.http.get<any>(url).pipe( 
+      switchMap(apiResponse => {
+        console.log('Raw response from backend (apiResponse):', apiResponse);
+        if (apiResponse && apiResponse.result && Array.isArray(apiResponse.result)) {
+            const cartItemResponses: CartItemResponse[] = apiResponse.result;
+            const productsInCart = cartItemResponses.map(this.convertCartItemResponseToProduct);
+            console.log('Products converted from cartItemResponses:', productsInCart);
+            return of(productsInCart);
+        } else {
+            console.error('Invalid API response format for cart items:', apiResponse);
+            return of([]);
+        }
+      }),
+      catchError(error => {
+        console.error('Lỗi khi tải giỏ hàng từ server:', error);
+        return of([]);
+      })
+    );
   }
 
-  private convertBackendCartItemToProduct(item: any): Product {
+  private convertCartItemResponseToProduct(item: CartItemResponse): Product {
+    console.log('Converting cart item response to product:', item);
     return {
       id: item.productId,
       name: item.productName,
@@ -47,14 +74,15 @@ export class CartService {
     };
   }
 
-  mergeLocalCartWithServerCart(username: string): Observable<Product[]> {
-    this.username = username;
+  mergeLocalCartWithServerCart(userId: number): Observable<Product[]> {
+    this.currentUserId = userId; 
+    console.log('Merging local cart with server cart for userId:', userId);
     const localCart = this.getCartFromLocalStorage();
+    console.log('Local cart before merging:', localCart);
 
-    return this.loadCartFromServer().pipe(
-      switchMap(serverCartItems => {
-        const mergedCartItems: Product[] = serverCartItems.map(this.convertBackendCartItemToProduct);
-
+    return this.loadCartFromServer(userId).pipe(
+      switchMap(initialServerCartItems => { // Cart DB trước khi gộp
+        const mergedCartItems: Product[] = [...initialServerCartItems]; // Bắt đầu với các item từ server
         localCart.forEach(localItem => {
           const existingServerItem = mergedCartItems.find(item => item.id === localItem.id);
           if (existingServerItem) {
@@ -64,28 +92,48 @@ export class CartService {
           }
         });
 
-        this.cartItems = mergedCartItems;
-        this.updateCart();
+        console.log('Merged cart items (before sync to server):', mergedCartItems);
 
-        const syncRequests = mergedCartItems.map(item => {
-          const cartItem = {
-            username: this.username!,
-            productId: item.id!,
-            quantity: item.quantity ?? 0
-          };
-          return this.syncCartItemToServer(cartItem);
+        this.cartItems = mergedCartItems; 
+        this.updateCart(); 
+
+        const syncRequests: Observable<any>[] = [];
+
+        mergedCartItems.forEach(itemToSync => {
+          const originalServerItem = initialServerCartItems.find(item => item.id === itemToSync.id);
+
+          if (originalServerItem) {
+            console.log('Updating existing server item:', itemToSync.id, 'quantity:', itemToSync.quantity);
+            syncRequests.push(this.http.put(`${this.apiUrl}/update/${this.currentUserId}`, { 
+              productId: itemToSync.id!,
+              quantity: itemToSync.quantity ?? 0 
+            }));
+          } else {
+            console.log('Adding new item to server cart:', itemToSync.id, 'quantity:', itemToSync.quantity);
+            syncRequests.push(this.http.post(`${this.apiUrl}/add/${this.currentUserId}`, { 
+              productId: itemToSync.id!,
+              quantity: itemToSync.quantity ?? 0 
+            }));
+          }
         });
-
         if (syncRequests.length > 0) {
-          return forkJoin(syncRequests).pipe(switchMap(() => of(mergedCartItems)));
+          return forkJoin(syncRequests).pipe(
+            tap(() => console.log('All merged cart items synced to server successfully.')),
+            catchError(error => {
+                console.error('Error syncing merged cart items to server:', error);
+                return throwError(() => error); 
+            }),
+            switchMap(() => of(mergedCartItems)) 
+          );
         } else {
+          console.log('No sync requests needed, returning merged cart items.');
           return of(mergedCartItems);
         }
       }),
       catchError(error => {
-        console.error('Lỗi trong quá trình gộp hoặc đồng bộ:', error);
-        this.loadCartFromLocalStorage();
-        throw error;
+        console.error('Lỗi trong quá trình gộp hoặc đồng bộ tổng thể:', error);
+        this.loadCartFromLocalStorage(); 
+        throw error; 
       })
     );
   }
@@ -99,12 +147,8 @@ export class CartService {
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
     this.cartSubject.next(this.cartItems);
   }
-
-  private syncCartItemToServer(cartItem: { username: string; productId: number, quantity: number }): Observable<any> {
-    if (!this.username) {
-      return of(null);
-    }
-    return this.http.post(`${this.apiUrl}/add`, cartItem);
+  private syncCartItemToServer(userId: number, productId: number, quantity: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add/${userId}`, { productId, quantity });
   }
 
   getCartItems(): Observable<Product[]> {
@@ -122,14 +166,10 @@ export class CartService {
 
     this.updateCart();
 
-    if (this.username) {
+    if (this.currentUserId) {
       const itemToSync = this.cartItems.find(item => item.id === product.id);
       if (itemToSync) {
-        this.syncCartItemToServer({ 
-          username: this.username, 
-          productId: itemToSync.id!, 
-          quantity: itemToSync.quantity ?? 0 
-        }).subscribe();
+        this.syncCartItemToServer(this.currentUserId, itemToSync.id!, itemToSync.quantity ?? 0).subscribe();
       }
     }
   }
@@ -142,8 +182,8 @@ export class CartService {
     this.cartItems = this.cartItems.filter(item => item.id !== productId);
     this.updateCart();
 
-    if (this.username) {
-      this.http.delete(`${this.apiUrl}/${productId}?username=${this.username}`).subscribe();
+    if (this.currentUserId) {
+      this.http.delete(`${this.apiUrl}/remove/${this.currentUserId}/${productId}`).subscribe();
     }
   }
 
@@ -153,12 +193,8 @@ export class CartService {
       item.quantity = quantity;
       this.updateCart();
 
-      if (this.username) {
-        this.syncCartItemToServer({ 
-          username: this.username, 
-          productId: item.id!, 
-          quantity: item.quantity ?? 0 
-        }).subscribe();
+      if (this.currentUserId) {
+        this.http.put(`${this.apiUrl}/update/${this.currentUserId}`, { productId: item.id!, quantity: item.quantity ?? 0 }).subscribe();
       }
     }
   }
@@ -167,20 +203,23 @@ export class CartService {
     this.cartItems = [];
     this.updateCart();
 
-    if (this.username) {
-      this.http.delete(`${this.apiUrl}/clear?username=${this.username}`).subscribe();
+    if (this.currentUserId) {
+      this.http.delete(`${this.apiUrl}/clear/${this.currentUserId}`).subscribe();
     }
   }
 
   clearCartLocal(): void {
     this.cartItems = [];
     this.updateCart();
-    this.username = null;
+    this.currentUserId = null; // Đặt lại userId khi clear local cart
   }
 
   getTotalPrice(): number {
     return this.cartItems.reduce((total, item) => {
       return total + (item.price * (item.quantity || 1));
     }, 0);
+  }
+  createOrder(orderData: any): Observable<any> {
+    return this.http.post('http://localhost:8080/api/orders', orderData);
   }
 }

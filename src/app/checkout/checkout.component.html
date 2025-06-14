@@ -1,0 +1,83 @@
+<app-nav></app-nav>
+<div class="checkout-container">
+  <h2>Thanh toán</h2>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Hiển thị thông báo thành công -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <!-- Form thanh toán -->
+  <form (ngSubmit)="onSubmit()" #checkoutForm="ngForm" *ngIf="!successMessage">
+    <div class="form-group">
+      <label for="address">Địa chỉ giao hàng:</label>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        [(ngModel)]="shippingInfo.address"
+        required
+        class="form-control"
+        placeholder="Nhập địa chỉ giao hàng"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Số điện thoại:</label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        name="phoneNumber"
+        [(ngModel)]="shippingInfo.phoneNumber"
+        required
+        pattern="^0[0-9]{9}$"
+        class="form-control"
+        placeholder="Nhập số điện thoại"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="note">Ghi chú:</label>
+      <textarea
+        id="note"
+        name="note"
+        [(ngModel)]="shippingInfo.note"
+        class="form-control"
+        placeholder="Nhập ghi chú (nếu có)"
+      ></textarea>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="cart-items">
+      <h3>Sản phẩm đã chọn</h3>
+      <div *ngFor="let item of cartItems" class="cart-item">
+        <img [src]="item.images || 'assets/images/no-image.png'" [alt]="item.name" class="product-image" />
+        <div class="product-info">
+          <h4>{{ item.name }}</h4>
+          <p>Số lượng: {{ item.quantity }}</p>
+          <p>Giá: {{ item.price | currency:'VND' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tổng tiền -->
+    <div class="total-amount">
+      <h3>Tổng tiền: {{ totalAmount | currency:'VND' }}</h3>
+    </div>
+
+    <!-- Nút đặt hàng -->
+    <button
+      type="submit"
+      [disabled]="isLoading || cartItems.length === 0"
+      class="submit-button"
+    >
+      <span *ngIf="isLoading">Đang xử lý...</span>
+      <span *ngIf="!isLoading">Đặt hàng</span>
+    </button>
+  </form>
+</div>
+<app-footer></app-footer>

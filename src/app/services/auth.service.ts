@@ -30,13 +30,18 @@ export class AuthService {
           localStorage.setItem('token', res.result.token);
           localStorage.setItem('user', JSON.stringify(res.result));
           localStorage.setItem('userName', res.result.userName);
+          localStorage.setItem('userId', res.result.id.toString());
           this.loggedIn.next(true);
 
-          if (res.result.userName) {
-             this.cartService.mergeLocalCartWithServerCart(res.result.userName).subscribe(
-               () => console.log(' Giỏ hàng đã được gộp và tải sau đăng nhập'),
-               (error) => console.error(' Lỗi khi gộp hoặc tải giỏ hàng sau đăng nhập:', error)
+          console.log('User logged in, userName:', res.result.userName, 'userId:', res.result.id);
+
+          if (res.result.id) {
+             this.cartService.mergeLocalCartWithServerCart(res.result.id).subscribe(
+               () => console.log('Giỏ hàng đã được gộp và tải sau đăng nhập'),
+               (error) => console.error('Lỗi khi gộp hoặc tải giỏ hàng sau đăng nhập:', error)
              );
+          } else {
+              console.warn('Không tìm thấy userId trong kết quả đăng nhập, không thể gộp giỏ hàng.');
           }
         }),
         catchError(this.handleError)
@@ -55,11 +60,16 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? parseInt(userId, 10) : null;
+  }
 
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('userName');
+    localStorage.removeItem('userId');
     this.loggedIn.next(false);
     this.cartService.clearCartLocal();
   }
@@ -72,6 +82,7 @@ export class AuthService {
   }
 
   private handleError(error: HttpErrorResponse) {
+    console.error('Full error object:', error);
     let errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;

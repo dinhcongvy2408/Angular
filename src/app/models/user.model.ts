@@ -15,6 +15,7 @@ export interface LoginResult {
   userName: string;
   token: string;
   authenticated: boolean;
+  id: number;
 }
 
 export interface LoginResponse {

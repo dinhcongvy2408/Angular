@@ -20,7 +20,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CartComponent } from './cart/cart.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ProductListPaginatedComponent } from './product-list-paginated/product-list-paginated.component';
+// import { CheckoutModule } from './checkout/checkout.module';
 // import { TokenInterceptor } from './services/token.service';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { ProductListPaginatedComponent } from './product-list-paginated/product-
     RegisterComponent,
     HomeComponent,
     CartComponent,
-    ProductListPaginatedComponent
+    ProductListPaginatedComponent,
+    CheckoutComponent
   ],
   imports: [
     NgbCarouselModule,
@@ -44,7 +48,10 @@ import { ProductListPaginatedComponent } from './product-list-paginated/product-
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule,
+    FormsModule,
+    CommonModule
   ],
   providers: [
     {
@@ -52,6 +59,9 @@ import { ProductListPaginatedComponent } from './product-list-paginated/product-
       useClass: TokenInterceptor,
       multi: true
     }
+  ],
+  exports: [
+    CheckoutComponent
   ],
   bootstrap: [AppComponent]
 })
